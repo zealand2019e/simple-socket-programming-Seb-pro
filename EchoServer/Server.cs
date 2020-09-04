@@ -14,8 +14,10 @@ namespace EchoServer
             TcpListener serverSocket = new TcpListener(IPAddress.Loopback, 7777);
 
             //Start server
-            TcpClient connectionSocket = serverSocket.AcceptTcpClient();
             Console.WriteLine("Waiting for a connection...");
+            serverSocket.Start();
+            TcpClient connectionSocket = serverSocket.AcceptTcpClient();
+            Console.WriteLine("Connection established ");
 
             Stream ns = connectionSocket.GetStream();
             StreamReader sr = new StreamReader(ns);
