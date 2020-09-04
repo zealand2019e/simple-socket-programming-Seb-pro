@@ -23,15 +23,21 @@ namespace EchoServer
             StreamReader sr = new StreamReader(ns);
             StreamWriter sw = new StreamWriter(ns);
             sw.AutoFlush = true; //Will auto flush
-
-            string message = sr.ReadLine();
-
-            Console.WriteLine("Received Message: " + message);
-            if (message != null)
+            while (true)
             {
-                sw.WriteLine(message.ToUpper());
-            }
+                string message = sr.ReadLine();
 
+                Console.WriteLine("Received Message: " + message);
+                if (message != null)
+                {
+                    sw.WriteLine(message.ToUpper());
+                }
+
+                if (message.ToLower() == "Close ")
+                {
+                 break;   
+                }
+            }
             ns.Close();
             Console.WriteLine("Net stream closed");
             connectionSocket.Close();
