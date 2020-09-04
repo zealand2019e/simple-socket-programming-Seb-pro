@@ -11,18 +11,35 @@ namespace EchoServer
     {
         public static void Start()
         { 
-            TcpListener serverSocket = new TcpListener(IPAddress.Loopback, 7777);
+            TcpListener serverSocket = new TcpListener(7777);
 
             //Start server
             Console.WriteLine("Waiting for a connection...");
             serverSocket.Start();
+            
+            //Establish a TCP connection and accept all pending connection request
             TcpClient connectionSocket = serverSocket.AcceptTcpClient();
-            Console.WriteLine("Connection established ");
+            Console.WriteLine("Connection established or enter c to close the connection");
 
-            Stream ns = connectionSocket.GetStream();
+            //Using the client method
+            DoClient(connectionSocket);
+
+            //Closing the TCP listener
+            serverSocket.Stop();
+            Console.WriteLine("Server Stop ");
+
+        }
+
+        //Client method to handle the client 
+        public static void DoClient(TcpClient connectionSocket)
+        {
+            //Creating a stream of data, that can both been read, and write from a byte stream
+            NetworkStream ns = connectionSocket.GetStream();
             StreamReader sr = new StreamReader(ns);
             StreamWriter sw = new StreamWriter(ns);
             sw.AutoFlush = true; //Will auto flush
+
+            //Making a while loop that display the enter message from the user
             while (true)
             {
                 string message = sr.ReadLine();
@@ -33,17 +50,18 @@ namespace EchoServer
                     sw.WriteLine(message.ToUpper());
                 }
 
-                if (message.ToLower() == "Close ")
+                //If the user enters c the connection will close down
+                if (message.ToLower() == "c")
                 {
-                 break;   
+                    break;   
                 }
             }
+            //Closing the stream of data and close the TCP connection
             ns.Close();
             Console.WriteLine("Net stream closed");
             connectionSocket.Close();
             Console.WriteLine("Connection socket closed");
-            serverSocket.Stop();
-            Console.WriteLine("Server Stop ");
         }
+
     }
 }
