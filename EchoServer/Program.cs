@@ -1,4 +1,5 @@
 ﻿using System;
+using static EchoServer.Server;
 
 namespace EchoServer
 {
@@ -6,7 +7,7 @@ namespace EchoServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Start();
         }
     }
 }
