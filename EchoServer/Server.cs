@@ -11,6 +11,7 @@ namespace EchoServer
     {
         public static void Start()
         { 
+            //Creating an instance of TCPlistener class that listen on a specified port
             TcpListener serverSocket = new TcpListener(7777);
 
             //Start server
@@ -42,6 +43,8 @@ namespace EchoServer
             //Making a while loop that display the enter message from the user
             while (true)
             {
+                sw.WriteLine("you are connected press c to disconnect");
+
                 string message = sr.ReadLine();
 
                 Console.WriteLine("Received Message: " + message);
@@ -56,6 +59,8 @@ namespace EchoServer
                     break;   
                 }
             }
+
+            sw.WriteLine("c");
             //Closing the stream of data and close the TCP connection
             ns.Close();
             Console.WriteLine("Net stream closed");
